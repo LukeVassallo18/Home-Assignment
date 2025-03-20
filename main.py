@@ -37,3 +37,7 @@ async def add_score(score: PlayerScore):
 async def get_player_scores():
     scores = await db.scores.find({}, {"_id": 0}).to_list(length=None)
     return {"player_scores": str(scores)}
+
+@app.get("/favicon.ico")
+async def favicon():
+    return {"message": "No favicon available"}
