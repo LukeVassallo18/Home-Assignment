@@ -2,12 +2,14 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from pydantic import BaseModel
 import motor.motor_asyncio
 
+# Initialise FastAPI app
 app = FastAPI()
 
-# Connect to Mongo Atlas
+# Connecting to Mongo Atlas using provided connection string
 client = motor.motor_asyncio.AsyncIOMotorClient("mongodb+srv://admin:123@mongodbcluster1.lnfxz.mongodb.net/")
-db = client.multimedia_db
+db = client.multimedia_db # Accessing/Creating the multimedia database
 
+# Definie a "constructor" for the player score data model
 class PlayerScore(BaseModel):
     player_name: str
     score: int
@@ -37,7 +39,3 @@ async def add_score(score: PlayerScore):
 async def get_player_scores():
     scores = await db.scores.find({}, {"_id": 0}).to_list(length=None)
     return {"player_scores": str(scores)}
-
-@app.get("/favicon.ico")
-async def favicon():
-    return {"message": "No favicon available"}
