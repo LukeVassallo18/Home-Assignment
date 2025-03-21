@@ -1,15 +1,23 @@
-from fastapi import APIRouter, File, UploadFile, HTTPException
+from fastapi import APIRouter
 from database import db
+from models import PlayerScore
 
 # Initialize router
 router = APIRouter()
 
-@router.post("/upload_sprite")
-async def upload_sprite(file: UploadFile = File(...)):
+@router.post("/player_score")
+async def add_score(score: PlayerScore):
     """
-    Uploads a sprite file to the database.
+    Records a player's score in the database.
     """
-    content = await file.read()
-    sprite_doc = {"filename": file.filename, "content": content}
-    result = await db.sprites.insert_one(sprite_doc)
-    return {"message": "Sprite uploaded", "id": str(result.inserted_id)}
+    score_doc = score.dict()
+    result = await db.scores.insert_one(score_doc)
+    return {"message": "Score recorded", "id": str(result.inserted_id)}
+
+@router.get("/player_scores")
+async def get_player_scores():
+    """
+    Retrieves all player scores from the database.
+    """
+    scores = await db.scores.find({}, {"_id": 0}).to_list(length=None)
+    return {"player_scores": str(scores)}
