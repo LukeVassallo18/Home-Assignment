@@ -4,6 +4,22 @@ from database import db
 # Initialize router
 router = APIRouter()
 
+# Handles the upload of a sprite file to the database.
+
+# Endpoint:
+#     POST /upload_sprite
+
+# Parameters:
+#     file (UploadFile): The sprite file to be uploaded. This is expected to be 
+#     provided as a file upload in the request.
+
+# Returns:
+#     dict: A dictionary containing a success message and the ID of the inserted 
+#     sprite document in the database.
+
+# Raises:
+#     HTTPException: If there is an issue with the file upload or database insertion.
+
 @router.post("/upload_sprite")
 async def upload_sprite(file: UploadFile = File(...)):
     """

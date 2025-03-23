@@ -6,6 +6,19 @@ from models import PlayerScore
 router = APIRouter()
 
 @router.post("/player_score")
+
+# Endpoint:
+#     POST /player_score
+
+# Parameters:
+#     score (PlayerScore): The player's score data to be recorded.
+
+# Returns:
+#     dict: A dictionary containing a success message and the ID of the inserted score document.
+
+# Raises:
+#     HTTPException: If there is an issue with the database operation.
+
 async def add_score(score: PlayerScore):
     """
     Records a player's score in the database.
